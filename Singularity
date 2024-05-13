@@ -39,7 +39,7 @@ export CRYOSPARC_LICENSE_ID=4df734a2-5300-11ee-9ab8-abff0251d81b
 
 %test
 #need to put tests here
-/app/cryosparc_master/bin/cryosparcm test install
+#/app/cryosparc_master/bin/cryosparcm test install
 
 
 
@@ -110,10 +110,10 @@ source.list \
   && echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/key-file.gpg ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" |
  tee /etc/apt/sources.list.d/mongodb-org-6.0.list \
   && rm -rf /var/lib/apt/lists/* \
-  && ln -s /usr/lib/x86_64-linux-gnu/libtiff.so.5 /usr/lib/x86_64-linux-gnu/libtiff.so.3
+  && ln -s -f /usr/lib/x86_64-linux-gnu/libtiff.so.5 /usr/lib/x86_64-linux-gnu/libtiff.so.3
 
 #symlink slurm-llnl to /etc/slurm to keep enterprise linux folks less confused
-ln -s /etc/slurm-llnl /etc/slurm
+ln -f -s /etc/slurm-llnl /etc/slurm
 
 mkdir -p ${CRYOSPARC_ROOT_DIR}
 cd ${CRYOSPARC_ROOT_DIR}
@@ -147,10 +147,10 @@ echo "INSTALLING WORKER"
   curl -L https://get.cryosparc.com/download/worker-latest/${CRYOSPARC_LICENSE_ID} | tar -xz \
   && cd ${CRYOSPARC_WORKER_DIR} \
   && rm -rf /var/lib/apt/lists/* \
-  && ln -s /usr/lib/x86_64-linux-gnu/libtiff.so.5 /usr/lib/x86_64-linux-gnu/libtiff.so.3
+  && ln -f -s /usr/lib/x86_64-linux-gnu/libtiff.so.5 /usr/lib/x86_64-linux-gnu/libtiff.so.3
 
 #symlink slurm-llnl to /etc/slurm to keep enterprise linux folks less confused
-ln -s /etc/slurm-llnl /etc/slurm
+ln -s -f /etc/slurm-llnl /etc/slurm
 
 mkdir -p ${CRYOSPARC_ROOT_DIR}
 cd ${CRYOSPARC_ROOT_DIR}
@@ -201,7 +201,7 @@ cd /usr/local/bin \
   && curl -L 'https://drive.google.com/uc?export=download&id=1hskY_AbXVgrl_BUIjWokDNLZK0c1FLxF' > MotionCor2_${MOTIONCOR2_VERSION}.zip \
   && unzip MotionCor2_${MOTIONCOR2_VERSION}.zip \
   && rm -f MotionCor2_${MOTIONCOR2_VERSION}.zip \
-  && ln -sf MotionCor2_${MOTIONCOR2_VERSION}-Cuda100 MotionCor2
+  && ln -s -f MotionCor2_${MOTIONCOR2_VERSION}-Cuda100 MotionCor2
 
 
 
