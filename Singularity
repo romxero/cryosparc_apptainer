@@ -53,18 +53,6 @@ export CRYOSPARC_LICENSE_ID=4df734a2-5300-11ee-9ab8-abff0251d81b
 #    touch ${APPTAINER_ROOTFS}/file2
 
 
-#
-#license stuff 
-#CRYO_SPARC_LIC=4be03944-949a-11ee-a66b-87114cdf98cb
-#export LICENSE_ID=$CRYO_SPARC_LIC
-
-# grab the latest cryosparc tarballs
-#curl -L https://get.cryosparc.com/download/master-latest/$LICENSE_ID -o cryosparc_master.tar.gz
-#curl -L https://get.cryosparc.com/download/worker-latest/$LICENSE_ID -o cryosparc_worker.tar.gz
-
-
-
-https://www.amazon.com/morpho/webapp/#/home
 %post
 export CRYOSPARC_ROOT_DIR=/app
 export DEBIAN_FRONTEND=noninteractive
