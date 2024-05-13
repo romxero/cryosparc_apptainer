@@ -64,7 +64,7 @@ export CRYOSPARC_LICENSE_ID=4df734a2-5300-11ee-9ab8-abff0251d81b
 
 
 
-
+https://www.amazon.com/morpho/webapp/#/home
 %post
 export CRYOSPARC_ROOT_DIR=/app
 export DEBIAN_FRONTEND=noninteractive
@@ -133,7 +133,7 @@ cd ${CRYOSPARC_ROOT_DIR}
 
 #need ot turn cryosparc license id into a file?!
 #RUN --mount=type=secret,id=cryosparc_license_id \
-  curl -L https://get.cryosparc.com/download/master-v${CRYOSPARC_VERSION}/${CRYOSPARC_LICENSE_ID} | tar -xz \
+  curl -L https://get.cryosparc.com/download/master-latest/${CRYOSPARC_LICENSE_ID} | tar -xz \
         && cd ${CRYOSPARC_MASTER_DIR} \
   && sed -i '/^echo "# Other" >> config.sh$/a echo \"CRYOSPARC_FORCE_USER=true\" >> config.sh' ./install.sh \
   && bash ./install.sh --license "${CRYOSPARC_LICENSE_ID}" --yes --allowroot
@@ -149,14 +149,14 @@ cd ${CRYOSPARC_ROOT_DIR}
 #  && rm -f ${CRYOSPARC_ROOT_DIR}/cryosparc_master_patch.tar.gz; fi
 
 # patches
-#sed -i 's/^export CRYOSPARC_LICENSE_ID=.*$/export CRYOSPARC_LICENSE_ID=TBD/g' ${CRYOSPARC_MASTER_DIR}/config.sh
-#sed -i 's:    disk_has_space=.*:    disk_has_space="true":g'  ${CRYOSPARC_MASTER_DIR}/bin/cryosparcm
+sed -i 's/^export CRYOSPARC_LICENSE_ID=.*$/export CRYOSPARC_LICENSE_ID=TBD/g' ${CRYOSPARC_MASTER_DIR}/config.sh
+sed -i 's:    disk_has_space=.*:    disk_has_space="true":g'  ${CRYOSPARC_MASTER_DIR}/bin/cryosparcm
 
 # install worker
 cd ${CRYOSPARC_ROOT_DIR}
 echo "INSTALLING WORKER"
 #--mount=type=secret,id=cryosparc_license_id \
-  curl -L https://get.cryosparc.com/download/worker-v${CRYOSPARC_VERSION}/${CRYOSPARC_LICENSE_ID} | tar -xz \
+  curl -L https://get.cryosparc.com/download/worker-latest/${CRYOSPARC_LICENSE_ID} | tar -xz \
   && cd ${CRYOSPARC_WORKER_DIR} \
   && rm -rf /var/lib/apt/lists/* \
   && ln -s /usr/lib/x86_64-linux-gnu/libtiff.so.5 /usr/lib/x86_64-linux-gnu/libtiff.so.3
@@ -170,7 +170,7 @@ cd ${CRYOSPARC_ROOT_DIR}
 
 #need ot turn cryosparc license id into a file?!
 #RUN --mount=type=secret,id=cryosparc_license_id \
-  curl -L https://get.cryosparc.com/download/master-v${CRYOSPARC_VERSION}/${CRYOSPARC_LICENSE_ID} | tar -xz \
+  curl -L https://get.cryosparc.com/download/master-latest/${CRYOSPARC_LICENSE_ID} | tar -xz \
         && cd ${CRYOSPARC_MASTER_DIR} \
   && sed -i '/^echo "# Other" >> config.sh$/a echo \"CRYOSPARC_FORCE_USER=true\" >> config.sh' ./install.sh \
   && bash ./install.sh --license "${CRYOSPARC_LICENSE_ID}" --yes --allowroot
@@ -178,10 +178,10 @@ cd ${CRYOSPARC_ROOT_DIR}
 
 
 # update patches
-if [ ! -z "${CRYOSPARC_PATCH}" ]; then curl -L https://get.cryosparc.com/patch_get/v${CRYOSPARC_VERSION}+${CRYOSPARC_PATCH}/master -o ${CRYOSPARC_ROOT
-_DIR}/cryosparc_master_patch.tar.gz \
-  && tar -vxzf ${CRYOSPARC_ROOT_DIR}/cryosparc_master_patch.tar.gz --overwrite --strip-components=1 --directory=${CRYOSPARC_MASTER_DIR} \
-  && rm -f ${CRYOSPARC_ROOT_DIR}/cryosparc_master_patch.tar.gz; fi
+#if [ ! -z "${CRYOSPARC_PATCH}" ]; then curl -L https://get.cryosparc.com/patch_get/v${CRYOSPARC_VERSION}+${CRYOSPARC_PATCH}/master -o ${CRYOSPARC_ROOT
+#_DIR}/cryosparc_master_patch.tar.gz \
+#  && tar -vxzf ${CRYOSPARC_ROOT_DIR}/cryosparc_master_patch.tar.gz --overwrite --strip-components=1 --directory=${CRYOSPARC_MASTER_DIR} \
+#  && rm -f ${CRYOSPARC_ROOT_DIR}/cryosparc_master_patch.tar.gz; fi
 
 # patches
 sed -i 's/^export CRYOSPARC_LICENSE_ID=.*$/export CRYOSPARC_LICENSE_ID=TBD/g' ${CRYOSPARC_MASTER_DIR}/config.sh
@@ -191,7 +191,7 @@ sed -i 's:    disk_has_space=.*:    disk_has_space="true":g'  ${CRYOSPARC_MASTER
 cd ${CRYOSPARC_ROOT_DIR}
 echo "INSTALLING WORKER"
 #--mount=type=secret,id=cryosparc_license_id \
-  curl -L https://get.cryosparc.com/download/worker-v${CRYOSPARC_VERSION}/${CRYOSPARC_LICENSE_ID} | tar -xz \
+  curl -L https://get.cryosparc.com/download/worker-latest/${CRYOSPARC_LICENSE_ID} | tar -xz \
   && cd ${CRYOSPARC_WORKER_DIR} \
   && bash ./install.sh --license ${CRYOSPARC_LICENSE_ID} --yes
   sed -i '/^echo "# Other" >> config.sh$/a echo \"CRYOSPARC_FORCE_USER=true\" >> config.sh' ./install.sh
@@ -222,7 +222,7 @@ cd /usr/local/bin \
 
 #CRYOSPARC_PATCH=231114
 MOTIONCOR2_VERSION=1.6.4
-CRYOSPARC_VERSION=4.4.1
+CRYOSPARC_VERSION=4.5.0
 MUNGEUSER=969
 MUNGEGROUP=969
 SLURMUSER=5224
