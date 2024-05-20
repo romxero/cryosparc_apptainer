@@ -15,27 +15,6 @@ stage: build
     This is an attempt to build CRYOSPARC with MotionCor2 in a singularity/apptainer definition file
 
 
-%environment
-export DEBIAN_FRONTEND=noninteractive
-export CRYOSPARC_ROOT_DIR=/app
-export CRYOSPARC_VERSION=${CRYOSPARC_VERSION}
-export CRYOSPARC_WORKER_DIR=${CRYOSPARC_ROOT_DIR}/cryosparc_worker
-export CRYOSPARC_MASTER_DIR=${CRYOSPARC_ROOT_DIR}/cryosparc_master
-export CRYOSPARC_VERSION=4.4.1
-export MOTIONCOR2_VERSION=${MOTIONCOR2_VERSION}
-#export CRYOSPARC_PATCH=231114
-export MUNGEUSER=969
-export MUNGEGROUP=969
-export SLURMUSER=5224
-export CRYOSPARC_LICENSE_ID=4df734a2-5300-11ee-9ab8-abff0251d81b
-
-
-
-
-%runscript
-   /entrypoint.bash
-
-
 
 %test
 #need to put tests here
@@ -204,16 +183,56 @@ cd /usr/local/bin \
   && ln -s -f MotionCor2_${MOTIONCOR2_VERSION}-Cuda100 MotionCor2
 
 
+## Install topaz
+
+# install topaz into the container 
+pushd /opt
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh -b -p /opt/topaz_conda_base
+
+source /opt/topaz_conda_base/bin/activate 
+conda create -n topaz python=3.6 -y #use python 3.6 for topaz
+conda activate topaz  # changes to the topaz conda environment
+conda install topaz -c tbepler -c pytorch -y # install topaz
+conda install mkl=2023.1 -y # downgrade intel mkl library
+
+rm -rf /opt/Miniforge3-$(uname)-$(uname -m).sh
+
+popd 
+
+
 
 
 %arguments
 
 #CRYOSPARC_PATCH=231114
 MOTIONCOR2_VERSION=1.6.4
-CRYOSPARC_VERSION=4.5.0
+CRYOSPARC_VERSION=4.5.1
 MUNGEUSER=969
 MUNGEGROUP=969
 SLURMUSER=5224
 SLURMGROUP=5224
 #CRYOSPARC_LICENSE_ID=4df734a2-5300-11ee-9ab8-abff0251d81b
 
+
+%environment
+export DEBIAN_FRONTEND=noninteractive
+export CRYOSPARC_ROOT_DIR=/app
+export CRYOSPARC_VERSION=${CRYOSPARC_VERSION}
+export CRYOSPARC_WORKER_DIR=${CRYOSPARC_ROOT_DIR}/cryosparc_worker
+export CRYOSPARC_MASTER_DIR=${CRYOSPARC_ROOT_DIR}/cryosparc_master
+export CRYOSPARC_VERSION=4.5.1
+export MOTIONCOR2_VERSION=${MOTIONCOR2_VERSION}
+#export CRYOSPARC_PATCH=231114
+export MUNGEUSER=969
+export MUNGEGROUP=969
+export SLURMUSER=5224
+export CRYOSPARC_LICENSE_ID=4df734a2-5300-11ee-9ab8-abff0251d81b
+
+#make sure to export the path variable for topaz
+PATH=/opt/topaz_conda_base/envs/topaz/bin:/opt/topaz_conda_base/condabin:$PATH
+export PATH
+
+
+%runscript
+   /entrypoint.bash
